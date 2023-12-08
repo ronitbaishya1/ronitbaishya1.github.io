@@ -3,6 +3,8 @@
 Classification is a type of supervised learning in machine learning where the goal is to predict the categorical class labels of new instances based on past observations. Here, I'll provide a simple example using a popular dataset called the Iris dataset and the scikit-learn library in Python.
 
 
+
+```'python'
 # Import necessary libraries
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
@@ -33,6 +35,11 @@ print(f"Accuracy: {accuracy:.2f}")
 # Display classification report
 report = classification_report(y_test, y_pred, target_names=iris.target_names)
 print("Classification Report:\n", report)
+```
+
+
+
+
 
 
 
