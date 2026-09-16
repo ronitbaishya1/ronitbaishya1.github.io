@@ -1,7 +1,6 @@
 (() => {
   const root = document.documentElement;
 
-  // ---------- Theme: explicit Light / Dark choices ----------
   let savedTheme = 'light';
   try {
     savedTheme = localStorage.getItem('ronit-theme') || 'light';
@@ -13,7 +12,6 @@
   themeStyles.id = 'theme-styles';
   themeStyles.textContent = `
     html[data-theme="light"] { color-scheme: light; }
-
     html[data-theme="dark"] {
       color-scheme: dark;
       --bg: #000000;
@@ -57,8 +55,6 @@
     html[data-theme="dark"] .nav-links a { color: #a1a1a6; }
     html[data-theme="dark"] .nav-links a:hover,
     html[data-theme="dark"] .nav-links a.active { color: #f5f5f7; border-color: #2997ff; }
-
-    html[data-theme="dark"] .hero-kicker,
     html[data-theme="dark"] .hero-copy,
     html[data-theme="dark"] .section-intro,
     html[data-theme="dark"] .page-hero p,
@@ -68,11 +64,9 @@
     html[data-theme="dark"] .timeline-item .meta,
     html[data-theme="dark"] .contact-line span,
     html[data-theme="dark"] .footer { color: #a1a1a6; }
-
     html[data-theme="dark"] .timeline-item .role { color: #d2d2d7; }
     html[data-theme="dark"] .stack-card h3,
     html[data-theme="dark"] .pub-year { color: #a1a1a6; }
-
     html[data-theme="dark"] .social-link,
     html[data-theme="dark"] .stack-card,
     html[data-theme="dark"] .project-card,
@@ -85,20 +79,17 @@
       border-color: #48484a;
       box-shadow: 0 8px 28px rgba(0,0,0,.35);
     }
-
     html[data-theme="dark"] .chip {
       background: #2c2c2e;
       border-color: #3a3a3c;
       color: #f5f5f7;
     }
-
     html[data-theme="dark"] .news-empty {
       background: linear-gradient(135deg, #1d1d1f, #111113);
       border-color: #2c2c2e;
       color: #a1a1a6;
     }
     html[data-theme="dark"] .news-empty strong { color: #f5f5f7; }
-
     html[data-theme="dark"] .photo-frame {
       background: #1d1d1f;
       border-color: #2c2c2e;
@@ -110,7 +101,6 @@
       box-shadow: 0 16px 44px rgba(0,0,0,.48);
     }
     html[data-theme="dark"] .photo-note strong { color: #64a8ff; }
-
     html[data-theme="dark"] .project-visual {
       background:
         radial-gradient(circle at 22% 34%, rgba(41,151,255,.20), transparent 26%),
@@ -122,23 +112,12 @@
     }
     html[data-theme="dark"] .project-number { color: #64a8ff; }
     html[data-theme="dark"] .project-symbol { color: #f5f5f7; }
-    html[data-theme="dark"] .project-tags span {
-      color: #d2d2d7;
-      background: #2c2c2e;
-    }
-
+    html[data-theme="dark"] .project-tags span { color: #d2d2d7; background: #2c2c2e; }
     html[data-theme="dark"] .timeline { border-left-color: #3a3a3c; }
     html[data-theme="dark"] .timeline-item::before { background: #000; }
-    html[data-theme="dark"] .button {
-      background: #f5f5f7;
-      color: #000;
-    }
-    html[data-theme="dark"] .button.secondary {
-      background: #2c2c2e;
-      color: #f5f5f7;
-    }
+    html[data-theme="dark"] .button { background: #f5f5f7; color: #000; }
+    html[data-theme="dark"] .button.secondary { background: #2c2c2e; color: #f5f5f7; }
 
-    /* Floating top-right theme control, styled like an Apple control capsule. */
     .theme-switcher {
       position: fixed;
       top: 88px;
@@ -190,31 +169,102 @@
       box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), 0 1px 5px rgba(0,0,0,.30);
     }
 
+    /* Mouse-reactive SciML research field */
+    .sciml-field {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .sciml-field::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .42;
+      background-image:
+        linear-gradient(rgba(29,78,216,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(29,78,216,.055) 1px, transparent 1px);
+      background-size: 52px 52px;
+      -webkit-mask-image: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), black 0 110px, transparent 340px);
+      mask-image: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), black 0 110px, transparent 340px);
+      transform: translate3d(var(--gx, 0px), var(--gy, 0px), 0);
+      transition: opacity .4s ease;
+    }
+    .sciml-field::after {
+      content: "∂u/∂t  +  𝒩[u]  =  0   ·   𝒢θ : a ↦ u   ·   ∇θℒphys";
+      position: absolute;
+      left: var(--fx, 50%);
+      top: var(--fy, 50%);
+      transform: translate(-50%, -50%);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: clamp(.72rem, 1.1vw, .9rem);
+      letter-spacing: .05em;
+      color: rgba(29,78,216,.16);
+      white-space: nowrap;
+      filter: blur(.1px);
+      transition: color .3s ease;
+    }
+    html[data-theme="dark"] .sciml-field::before {
+      opacity: .30;
+      background-image:
+        linear-gradient(rgba(41,151,255,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(41,151,255,.08) 1px, transparent 1px);
+    }
+    html[data-theme="dark"] .sciml-field::after { color: rgba(41,151,255,.22); }
+
+    .cursor-orbit {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 22px;
+      height: 22px;
+      border: 1px solid rgba(29,78,216,.45);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 120;
+      transform: translate(-50%, -50%);
+      transition: width .18s ease, height .18s ease, border-color .18s ease, background .18s ease;
+      mix-blend-mode: multiply;
+    }
+    html[data-theme="dark"] .cursor-orbit {
+      border-color: rgba(41,151,255,.55);
+      mix-blend-mode: screen;
+    }
+    .cursor-orbit.is-link {
+      width: 38px;
+      height: 38px;
+      background: rgba(29,78,216,.07);
+      border-color: rgba(29,78,216,.7);
+    }
+    html[data-theme="dark"] .cursor-orbit.is-link {
+      background: rgba(41,151,255,.10);
+      border-color: rgba(41,151,255,.8);
+    }
+
+    body > *:not(.sciml-field):not(.cursor-orbit):not(.theme-switcher) { position: relative; z-index: 1; }
+
     @media (max-width: 900px) {
       .theme-switcher { top: 126px; right: 14px; }
+      .cursor-orbit { display: none; }
     }
     @media (max-width: 600px) {
       .theme-switcher { top: 132px; right: 10px; }
       .theme-choice { padding: 8px 9px; }
       .theme-choice span { display: none; }
+      .sciml-field::after { display: none; }
     }
     @media (prefers-reduced-motion: reduce) {
       body, .site-header, .stack-card, .project-card, .contact-card, .cv-shell,
       .social-link, .chip, .news-empty, .photo-frame, .photo-note, .project-visual,
       .project-tags span, .theme-switcher, .theme-choice { transition: none !important; }
+      .cursor-orbit, .sciml-field { display: none !important; }
     }
   `;
   document.head.appendChild(themeStyles);
 
-  const sunIcon = `
-    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-      <circle cx="12" cy="12" r="3.6"></circle>
-      <path d="M12 2.3v2.1M12 19.6v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.3 12h2.1M19.6 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"></path>
-    </svg>`;
-  const moonIcon = `
-    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20.2 15.2A8.2 8.2 0 0 1 8.8 3.8 8.5 8.5 0 1 0 20.2 15.2Z"></path>
-    </svg>`;
+  const sunIcon = `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3.6"></circle><path d="M12 2.3v2.1M12 19.6v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.3 12h2.1M19.6 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"></path></svg>`;
+  const moonIcon = `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 15.2A8.2 8.2 0 0 1 8.8 3.8 8.5 8.5 0 1 0 20.2 15.2Z"></path></svg>`;
 
   function setTheme(theme) {
     root.dataset.theme = theme;
@@ -226,30 +276,70 @@
 
   function buildThemeSwitcher() {
     if (document.querySelector('.theme-switcher')) return;
-
     const switcher = document.createElement('div');
     switcher.className = 'theme-switcher';
     switcher.setAttribute('role', 'group');
     switcher.setAttribute('aria-label', 'Color theme');
     switcher.innerHTML = `
-      <button class="theme-choice" type="button" data-theme-choice="light" aria-label="Use light mode">
-        ${sunIcon}<span>Light</span>
-      </button>
-      <button class="theme-choice" type="button" data-theme-choice="dark" aria-label="Use dark mode">
-        ${moonIcon}<span>Dark</span>
-      </button>`;
-
+      <button class="theme-choice" type="button" data-theme-choice="light" aria-label="Use light mode">${sunIcon}<span>Light</span></button>
+      <button class="theme-choice" type="button" data-theme-choice="dark" aria-label="Use dark mode">${moonIcon}<span>Dark</span></button>`;
     switcher.addEventListener('click', (event) => {
       const button = event.target.closest('.theme-choice');
       if (!button) return;
       setTheme(button.dataset.themeChoice);
     });
-
     document.body.appendChild(switcher);
     setTheme(root.dataset.theme || 'light');
   }
 
-  // ---------- Existing flow-in animation ----------
+  function buildResearchField() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (document.querySelector('.sciml-field')) return;
+
+    const field = document.createElement('div');
+    field.className = 'sciml-field';
+    document.body.prepend(field);
+
+    const orbit = document.createElement('div');
+    orbit.className = 'cursor-orbit';
+    document.body.appendChild(orbit);
+
+    let targetX = innerWidth / 2;
+    let targetY = innerHeight / 2;
+    let x = targetX;
+    let y = targetY;
+
+    function animateCursor() {
+      x += (targetX - x) * 0.16;
+      y += (targetY - y) * 0.16;
+      orbit.style.left = `${x}px`;
+      orbit.style.top = `${y}px`;
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    window.addEventListener('pointermove', (event) => {
+      targetX = event.clientX;
+      targetY = event.clientY;
+
+      const px = (event.clientX / innerWidth) * 100;
+      const py = (event.clientY / innerHeight) * 100;
+      const gx = ((event.clientX / innerWidth) - .5) * 12;
+      const gy = ((event.clientY / innerHeight) - .5) * 12;
+
+      field.style.setProperty('--mx', `${px}%`);
+      field.style.setProperty('--my', `${py}%`);
+      field.style.setProperty('--fx', `${Math.min(88, Math.max(12, px + 8))}%`);
+      field.style.setProperty('--fy', `${Math.min(88, Math.max(12, py + 10))}%`);
+      field.style.setProperty('--gx', `${gx}px`);
+      field.style.setProperty('--gy', `${gy}px`);
+    }, { passive: true });
+
+    document.addEventListener('pointerover', (event) => {
+      orbit.classList.toggle('is-link', !!event.target.closest('a, button, .chip, .project-card, .stack-card'));
+    });
+  }
+
   const selector = [
     '.hero > div:first-child',
     '.hero .photo-wrap',
@@ -267,35 +357,26 @@
 
   function runFlowAnimation() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
     const items = Array.from(document.querySelectorAll(selector));
-
     items.forEach((el, index) => {
       el.style.animation = 'none';
       el.getAnimations().forEach(animation => animation.cancel());
-
       const isPhoto = el.classList.contains('photo-wrap');
       const distance = isPhoto ? 'translate3d(38px, 0, 0)' : 'translate3d(0, 28px, 0)';
       const delay = 70 + Math.min(index * 65, 650);
-
       el.animate(
         [
           { opacity: 0, transform: distance, filter: 'blur(5px)' },
           { opacity: 1, transform: 'translate3d(0, 0, 0)', filter: 'blur(0px)' }
         ],
-        {
-          duration: 950,
-          delay,
-          easing: 'cubic-bezier(.22,.72,.2,1)',
-          fill: 'both'
-        }
+        { duration: 950, delay, easing: 'cubic-bezier(.22,.72,.2,1)', fill: 'both' }
       );
     });
   }
 
   buildThemeSwitcher();
+  buildResearchField();
 
-  // pageshow fires on normal navigation and when a page is restored from browser cache.
   window.addEventListener('pageshow', () => {
     setTheme(root.dataset.theme || savedTheme);
     requestAnimationFrame(() => {
