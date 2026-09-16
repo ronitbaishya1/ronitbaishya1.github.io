@@ -1,0 +1,36 @@
+/* Keep the original mouse-reactive SciML grid/cursor effect consistent across every tab. */
+
+/* Disable the experimental vector-field canvas if an older cached page still creates it. */
+.vector-field-canvas {
+  display: none !important;
+}
+
+/* Make the grid a little more visible without becoming distracting. */
+.sciml-field::before {
+  opacity: .60 !important;
+  background-image:
+    linear-gradient(rgba(29, 78, 216, .085) 1px, transparent 1px) !important,
+    linear-gradient(90deg, rgba(29, 78, 216, .085) 1px, transparent 1px) !important;
+}
+
+/* Replace the longer equation string with a compact field notation. */
+.sciml-field::after {
+  content: "q(x,y,t)" !important;
+  color: rgba(29, 78, 216, .34) !important;
+  font-size: clamp(.88rem, 1.25vw, 1.04rem) !important;
+  font-weight: 650 !important;
+  letter-spacing: .045em !important;
+  text-shadow: 0 1px 8px rgba(29, 78, 216, .08) !important;
+}
+
+html[data-theme="dark"] .sciml-field::before {
+  opacity: .50 !important;
+  background-image:
+    linear-gradient(rgba(41, 151, 255, .12) 1px, transparent 1px) !important,
+    linear-gradient(90deg, rgba(41, 151, 255, .12) 1px, transparent 1px) !important;
+}
+
+html[data-theme="dark"] .sciml-field::after {
+  color: rgba(100, 168, 255, .50) !important;
+  text-shadow: 0 1px 10px rgba(41, 151, 255, .15) !important;
+}
