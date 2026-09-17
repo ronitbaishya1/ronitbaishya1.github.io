@@ -1,0 +1,88 @@
+/* Publication-inspired list layout for the Projects page. */
+.projects-list {
+  display: block;
+  padding-bottom: 90px;
+}
+
+.project-card.project-row {
+  display: grid;
+  grid-template-columns: 155px minmax(0, 1fr);
+  gap: 30px;
+  padding: 28px 0 30px;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+}
+
+.project-card.project-row:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.project-card.project-row:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.project-date {
+  padding-top: 3px;
+  color: var(--muted);
+  font-size: .9rem;
+  font-weight: 720;
+  line-height: 1.45;
+}
+
+.project-content {
+  min-width: 0;
+}
+
+.project-content h2 {
+  margin: 0 0 8px;
+  font-size: 1.28rem;
+  line-height: 1.28;
+  letter-spacing: -.025em;
+}
+
+.project-content p {
+  margin: 0 0 16px;
+  max-width: 850px;
+  color: var(--muted);
+}
+
+.project-row .project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.project-row .project-tags span {
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: #f1f4f8;
+  color: #42506a;
+  font-size: .77rem;
+  font-weight: 700;
+}
+
+html[data-theme="dark"] .project-row .project-tags span {
+  background: #2c2c2e;
+  color: #d2d2d7;
+}
+
+@media (max-width: 700px) {
+  .project-card.project-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 24px 0 26px;
+  }
+
+  .project-date {
+    font-size: .82rem;
+  }
+
+  .project-content h2 {
+    font-size: 1.16rem;
+  }
+}
